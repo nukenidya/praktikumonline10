@@ -12,7 +12,6 @@ import kotlinx.coroutines.launch
 public abstract class WordRoomDatabase : RoomDatabase(){
 
     abstract fun wordDao(): WordDAO
-
     private class WordDatabaseCallback(private val scope: CoroutineScope): RoomDatabase.Callback() {
         override fun onOpen(db: SupportSQLiteDatabase) {
             super.onOpen(db)
@@ -22,15 +21,14 @@ public abstract class WordRoomDatabase : RoomDatabase(){
 
         suspend fun populateDatabase(wordDao: WordDAO) {
             wordDao.deleteAll()
-            var word = Word("Hello")
+            var word = Word("Nuke")
             wordDao.insert(word)
-            word = Word("World!")
+            word = Word("Nidya")
             wordDao.insert(word)
         }
     }
 
     companion object{
-
         @Volatile
         private var INSTANCE: WordRoomDatabase? = null
 
@@ -41,13 +39,6 @@ public abstract class WordRoomDatabase : RoomDatabase(){
                 ).addCallback(WordDatabaseCallback(scope)).build()
                 INSTANCE = instance
                 instance
-                //return instance
-
-            //val  tempInstance = INSTANCE
-            //if (tempInstance != null) {
-            //    return tempInstance
-            //}
-
             }
         }
     }

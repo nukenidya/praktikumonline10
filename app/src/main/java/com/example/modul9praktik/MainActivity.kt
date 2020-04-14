@@ -24,8 +24,11 @@ class MainActivity : AppCompatActivity() {
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(this)
         wordViewModel = ViewModelProvider(this).get(WordViewModel::class.java)
-        wordViewModel.allWords.observe(this, Observer { words -> words?.let { adapter.setWords(it) } })
-
+        wordViewModel.allWords.observe(this, Observer { words -> words?.let { adapter.setWords(it)
+            adapter.setOnClickListener {
+                val current = words[it]
+                Toast.makeText(this, "Hai " + current.word, Toast.LENGTH_SHORT).show()
+            } } })
         val fab = findViewById<FloatingActionButton>(R.id.fab)
         fab.setOnClickListener {
             val intent = Intent (this@MainActivity, NewWordActivity::class.java)
@@ -42,7 +45,6 @@ class MainActivity : AppCompatActivity() {
         } else {
             Toast.makeText(
                 applicationContext, R.string.empty_not_saved, Toast.LENGTH_LONG).show()
-
         }
     }
 }
